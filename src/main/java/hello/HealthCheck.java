@@ -18,6 +18,6 @@ public class HealthCheck {
 
     @Override
     public String toString() {
-        return currentTime;
+        return "HealthCheck: "+currentTime;
     }
 }

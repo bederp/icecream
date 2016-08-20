@@ -28,8 +28,8 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-        Quote quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
-        log.info(quote.toString());
+        final HealthCheck healthCheck = restTemplate.getForObject("http://192.168.0.50:12345/maze-game/HealthCheck", HealthCheck.class);
+        log.info(String.valueOf(healthCheck));
     }
 
 }
