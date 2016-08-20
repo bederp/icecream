@@ -1,12 +1,12 @@
 package client;
 
-import hello.Greeting;
-import hello.HealthCheck;
-import hello.Identifier;
+import json.Greeting;
+import json.HealthCheck;
+import json.Identifier;
 import hello.Methods;
-import hello.MoveResult;
-import hello.ScanResult;
-import hello.StartCompetition;
+import json.MoveResult;
+import json.ScanResult;
+import json.StartCompetition;
 import hello.URLFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

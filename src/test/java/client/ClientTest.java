@@ -5,14 +5,14 @@ package client;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import hello.Greeting;
+import json.Greeting;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Rule;
 import org.junit.Test;
-import hello.HealthCheck;
-import hello.ScanResult;
-import hello.StartCompetition;
+import json.HealthCheck;
+import json.ScanResult;
+import json.StartCompetition;
 import org.junit.Before;
 import org.junit.Ignore;
 
@@ -44,10 +44,6 @@ public class ClientTest {
 
         HealthCheck hc = client.healthCheck();
         assertNotNull(hc.getCurrentTime());
-
-//        verify(postRequestedFor(urlMatching("/my/resource/[a-z0-9]+"))
-//                .withRequestBody(matching(".*<message>1234</message>.*"))
-//                .withHeader("Content-Type", notMatching("application/json")));
     }
 
     @Ignore

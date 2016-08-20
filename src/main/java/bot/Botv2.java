@@ -2,6 +2,9 @@ package bot;/*
     Created by kinder112 on 20.08.2016.
  */
 
+import json.StartCompetition;
+import json.MoveResult;
+import json.Point;
 import client.Client;
 import client.ClientApi;
 import hello.*;

@@ -1,4 +1,4 @@
-package hello;/*
+package json;/*
     Created by kinder112 on 20.08.2016.
  */
 

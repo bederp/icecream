@@ -5,12 +5,12 @@
  */
 package client;
 
-import hello.ScanResult;
-import hello.MoveResult;
-import hello.Greeting;
-import hello.HealthCheck;
+import json.ScanResult;
+import json.MoveResult;
+import json.Greeting;
+import json.HealthCheck;
 import hello.Methods;
-import hello.StartCompetition;
+import json.StartCompetition;
 
 /**
  *

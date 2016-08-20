@@ -5,9 +5,9 @@ package bot;/*
 import client.Client;
 import client.ClientApi;
 import hello.Application;
-import hello.MoveResult;
-import hello.Point;
-import hello.StartCompetition;
+import json.MoveResult;
+import json.Point;
+import json.StartCompetition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

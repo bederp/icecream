@@ -1,7 +1,12 @@
-package hello;/*
+package json;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+/*
     Created by kinder112 on 20.08.2016.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StartCompetition {
     Point startPoint;
     Point endPoint;
