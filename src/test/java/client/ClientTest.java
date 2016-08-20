@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Rule;
 import org.junit.Test;
 import hello.HealthCheck;
+import org.junit.Before;
 
 /**
  *
@@ -23,6 +24,7 @@ public class ClientTest {
     public WireMockRule wireMockRule = new WireMockRule(8089);
     private Client client;
     
+    @Before
     public void setUp(){
         client = new Client("maze_id");
     }

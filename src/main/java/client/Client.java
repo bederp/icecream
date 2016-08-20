@@ -37,8 +37,10 @@ public class Client implements ClientApi {
     @Override
     public HealthCheck healthCheck() {
         RestTemplate restTemplate = new RestTemplate();
+        final String url = URLFactory.getProd(Methods.HealthCheck);
+        logger.info("Connecting to ", url);
 
-        HealthCheck response = restTemplate.getForObject(URLFactory.getProd(Methods.HealthCheck), HealthCheck.class);
+        HealthCheck response = restTemplate.getForObject(url, HealthCheck.class);
 
         logger.info("Got healthCheck reposne: {}", response.toString());
         return response;
@@ -56,21 +58,21 @@ public class Client implements ClientApi {
 
     @Override
     public MoveResult moveUp() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), this, MoveResult.class);
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), getId(), MoveResult.class);
     }
 
     @Override
     public MoveResult moveDown() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), this, MoveResult.class);
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), getId(), MoveResult.class);
     }
 
     @Override
     public MoveResult moveRight() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), this, MoveResult.class);
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), getId(), MoveResult.class);
     }
 
     @Override
     public MoveResult moveLeft() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), this, MoveResult.class);
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), getId(), MoveResult.class);
     }
 }
