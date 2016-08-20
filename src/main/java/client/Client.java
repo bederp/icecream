@@ -83,4 +83,20 @@ public class Client implements ClientApi {
     public MoveResult moveLeft() {
         return new RestTemplate().postForObject(getUrl(Methods.MoveLeft), getId(), MoveResult.class);
     }
+
+    @Override
+    public MoveResult move(Methods moveDir) {
+        switch (moveDir) {
+            case MoveUp:
+                return moveUp();
+            case MoveDown:
+                return moveDown();
+            case MoveLeft:
+                return moveLeft();
+            case MoveRight:
+                return moveRight();
+            default:
+                throw new IllegalArgumentException("Not allowed move: " + moveDir);
+        }
+    }
 }

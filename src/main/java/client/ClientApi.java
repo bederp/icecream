@@ -8,6 +8,7 @@ package client;
 import hello.MoveResult;
 import hello.Greeting;
 import hello.HealthCheck;
+import hello.Methods;
 import hello.StartCompetition;
 
 /**
@@ -26,4 +27,5 @@ public interface ClientApi {
     MoveResult moveDown();
     MoveResult moveRight();
     MoveResult moveLeft();
+    MoveResult move(Methods moveDir);
 }
