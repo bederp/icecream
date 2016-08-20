@@ -2,8 +2,22 @@ import os
 import sys
 import json
 import copy
+from enum import Enum
 from flask import Flask, request, jsonify
 app = Flask(__name__)
+
+class Direction(Enum):
+    up = 1
+    down = 2
+    left = 3
+    right = 4
+
+dirmap = {
+    Direction.right: (1, 0, 'right'),
+    Direction.left: (-1, 0, 'left'),
+    Direction.up: (0, -1, 'up'),
+    Direction.down: (0, 1, 'down')
+}
 
 class CMaze(object):
     def __init__(self, filename):
@@ -67,14 +81,27 @@ class CMaze(object):
             
     def scan(self, direction=None):
         pos = copy.copy(self.current)
-        res = {}
+        res = {'left': '', 'right': '', 'up': '', 'down': ''}
         if not direction:
+            self.points += 4
             res['left'] = self.get_symbol((pos[0], pos[1] - 1))
             res['right'] = self.get_symbol((pos[0], pos[1] + 1))
             res['up'] = self.get_symbol((pos[0] - 1, pos[1]))
             res['down'] = self.get_symbol((pos[0] + 1, pos[1]))
+        else:
+            x, y, name = dirmap[direction]
+            pos[1] += x
+            pos[0] += y
+            self.points += 3
+            while self.get(pos):
+                res[name] += self.get_symbol(pos)
+                pos[1] += x
+                pos[0] += y
+                self.points += 1
+            else:
+                res[name] += self.get_symbol(pos)
+                self.points += 1
         
-        self.points += 4
         print(res)
         print(self.points)
         return res
@@ -112,6 +139,22 @@ def start():
 @app.route('/Scan', methods=['GET', 'POST'])
 def scan():
     return jsonify(maze.scan())
+
+@app.route('/ScanRight', methods=['GET', 'POST'])
+def scan_right():
+    return jsonify(maze.scan(Direction.right))
+
+@app.route('/ScanLeft', methods=['GET', 'POST'])
+def scan_left():
+    return jsonify(maze.scan(Direction.left))
+
+@app.route('/ScanUp', methods=['GET', 'POST'])
+def scan_up():
+    return jsonify(maze.scan(Direction.up))
+
+@app.route('/ScanDown', methods=['GET', 'POST'])
+def scan_down():
+    return jsonify(maze.scan(Direction.down))
         
 @app.route('/MoveUp', methods=['GET', 'POST'])
 def move_up():
