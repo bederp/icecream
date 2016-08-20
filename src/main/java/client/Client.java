@@ -24,10 +24,16 @@ public class Client implements ClientApi {
 
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
     private final String maze_id;
+    private boolean isProduction = true;
 //    String localUrl = "https://hackathon-mutineer.c9users.io/StartCompetition";
 
     public Client(String maze_id) {
+        this(maze_id, true);
+    }
+
+    public Client(String maze_id, boolean isProducion) {
         this.maze_id = maze_id;
+        this.isProduction = isProducion;
     }
 
     private Identifier getId() {
@@ -37,42 +43,44 @@ public class Client implements ClientApi {
     @Override
     public HealthCheck healthCheck() {
         RestTemplate restTemplate = new RestTemplate();
-        final String url = URLFactory.getProd(Methods.HealthCheck);
-        logger.info("Connecting to ", url);
 
-        HealthCheck response = restTemplate.getForObject(url, HealthCheck.class);
+        HealthCheck response = restTemplate.getForObject(getUrl(Methods.HealthCheck), HealthCheck.class);
 
         logger.info("Got healthCheck reposne: {}", response.toString());
         return response;
     }
 
+    private String getUrl(Methods method) {
+        return this.isProduction ? URLFactory.getProd(method) : URLFactory.getTest(method);
+    }
+
     @Override
     public Greeting greetTeam() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.GreatTeam), this, Greeting.class);
+        return new RestTemplate().postForObject(getUrl(Methods.GreatTeam), this, Greeting.class);
     }
 
     @Override
     public StartCompetition startCompetition() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.StartCompetition), getId(), StartCompetition.class);
+        return new RestTemplate().postForObject(getUrl(Methods.StartCompetition), getId(), StartCompetition.class);
     }
 
     @Override
     public MoveResult moveUp() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), getId(), MoveResult.class);
+        return new RestTemplate().postForObject(getUrl(Methods.MoveUp), getId(), MoveResult.class);
     }
 
     @Override
     public MoveResult moveDown() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), getId(), MoveResult.class);
+        return new RestTemplate().postForObject(getUrl(Methods.MoveDown), getId(), MoveResult.class);
     }
 
     @Override
     public MoveResult moveRight() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), getId(), MoveResult.class);
+        return new RestTemplate().postForObject(getUrl(Methods.MoveRight), getId(), MoveResult.class);
     }
 
     @Override
     public MoveResult moveLeft() {
-        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), getId(), MoveResult.class);
+        return new RestTemplate().postForObject(getUrl(Methods.MoveLeft), getId(), MoveResult.class);
     }
 }
