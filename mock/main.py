@@ -39,10 +39,19 @@ class CMaze(object):
         f.close()
         self.current = copy.copy(self.start)
         
-        for i in self.maze:
-            print(''.join([' ' if x else '#' for x in i]))
-        print(self.start)
-        print(self.end)
+        self.print_maze()
+        
+    def print_maze(self):
+        for l in enumerate(self.maze):
+            line = ''
+            for r in enumerate(l[1]):
+                if self.current[0] == l[0] and self.current[1] == r[0]:
+                    line += 'A'
+                elif self.end[0] == l[0] and self.end[1] == r[0]:
+                    line += 'B'
+                else:
+                    line += ' ' if r[1] else '#'
+            print(line)
                      
     def get_current(self):
         return {'x': self.current[1], 'y': self.current[0]}
@@ -70,12 +79,12 @@ class CMaze(object):
                 self.at_end = True
                 self.points -= 50
             
-            print(self.current)    
+            self.print_maze()    
             print(self.points)
             return True
         else:
             self.points += 7
-            print(self.current)
+            self.print_maze()
             print(self.points)
             return False
             
