@@ -6,8 +6,16 @@ public class StartCompetition {
     Point startPoint;
     Point endPoint;
 
+    public Point getStartPoint() {
+        return startPoint;
+    }
+
     public void setStartPoint(Point startPoint) {
         this.startPoint = startPoint;
+    }
+
+    public Point getEndPoint() {
+        return endPoint;
     }
 
     public void setEndPoint(Point endPoint) {

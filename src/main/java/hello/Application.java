@@ -28,7 +28,8 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForObject(URLFactory.getProd(Methods.StartCompetition), new Identifier("id_1"), StartCompetition.class);
+        final StartCompetition start = restTemplate.postForObject(URLFactory.getTest(Methods.StartCompetition), new Identifier("id_1"), StartCompetition.class);
+        log.info(String.valueOf(start));
 //        final HealthCheck healthCheck = restTemplate.getForObject("http://192.168.0.50:12345/maze-game/HealthCheck", HealthCheck.class);
 //        log.info(String.valueOf(healthCheck));
     }
