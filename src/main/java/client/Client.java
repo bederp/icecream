@@ -5,6 +5,7 @@ import hello.HealthCheck;
 import hello.Identifier;
 import hello.Methods;
 import hello.MoveResult;
+import hello.ScanResult;
 import hello.StartCompetition;
 import hello.URLFactory;
 import org.slf4j.Logger;
@@ -99,4 +100,31 @@ public class Client implements ClientApi {
                 throw new IllegalArgumentException("Not allowed move: " + moveDir);
         }
     }
+
+    @Override
+    public ScanResult scan() {
+        return new RestTemplate().postForObject(getUrl(Methods.Scan), getId(), ScanResult.class);
+    }
+
+    @Override
+    public ScanResult scanUp() {
+        return new RestTemplate().postForObject(getUrl(Methods.ScanUp), getId(), ScanResult.class);
+    }
+
+    @Override
+    public ScanResult scanDown() {
+        return new RestTemplate().postForObject(getUrl(Methods.ScanDown), getId(), ScanResult.class);
+    }
+
+    @Override
+    public ScanResult scanLeft() {
+        return new RestTemplate().postForObject(getUrl(Methods.ScanLeft), getId(), ScanResult.class);
+    }
+
+    @Override
+    public ScanResult scanRight() {
+        return new RestTemplate().postForObject(getUrl(Methods.ScanRight), getId(), ScanResult.class);
+    }
+    
+    
 }

@@ -5,6 +5,7 @@
  */
 package client;
 
+import hello.ScanResult;
 import hello.MoveResult;
 import hello.Greeting;
 import hello.HealthCheck;
@@ -28,4 +29,11 @@ public interface ClientApi {
     MoveResult moveRight();
     MoveResult moveLeft();
     MoveResult move(Methods moveDir);
+    
+    ScanResult scan();
+    ScanResult scanUp();
+    ScanResult scanDown();
+    ScanResult scanLeft();
+    ScanResult scanRight();
+    
 }

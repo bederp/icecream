@@ -13,6 +13,7 @@ import org.junit.Test;
 import hello.HealthCheck;
 import hello.StartCompetition;
 import org.junit.Before;
+import org.junit.Ignore;
 
 /**
  *
@@ -30,6 +31,7 @@ public class ClientTest {
         client = new Client("r1_1", false);
     }
 
+    @Ignore
     @Test
     public void shouldReturnValidTime() {
 //        stubFor(get(urlEqualTo("/maze-game/HealthCheck"))
@@ -47,6 +49,7 @@ public class ClientTest {
 //                .withHeader("Content-Type", notMatching("application/json")));
     }
 
+    @Ignore
     @Test
     public void shouldGetGreeting() {
         
@@ -60,5 +63,17 @@ public class ClientTest {
         StartCompetition start = client.startCompetition();
         assertNotNull(start);
     }
+    
+    @Test
+    public void testAllScanMethods() {
+        
+        assertNotNull(client.scan());
+        assertNotNull(client.scanUp());
+        assertNotNull(client.scanDown());
+        assertNotNull(client.scanLeft());
+        assertNotNull(client.scanRight());
+    }
+    
+    
 
 }
