@@ -24,7 +24,7 @@ public class ClientTest {
     private Client client;
     
     public void setUp(){
-        client = new Client();
+        client = new Client("maze_id");
     }
 
     @Test

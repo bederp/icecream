@@ -2,6 +2,7 @@ package client;
 
 import hello.Greeting;
 import hello.HealthCheck;
+import hello.Identifier;
 import hello.Methods;
 import hello.MoveResult;
 import hello.StartCompetition;
@@ -22,8 +23,16 @@ import org.springframework.web.client.RestTemplate;
 public class Client implements ClientApi {
 
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
-    private static final String remoteUrl = "http://192.168.0.50:12345/maze-game";
+    private final String maze_id;
 //    String localUrl = "https://hackathon-mutineer.c9users.io/StartCompetition";
+
+    public Client(String maze_id) {
+        this.maze_id = maze_id;
+    }
+
+    private Identifier getId() {
+        return new Identifier(this.maze_id);
+    }
 
     @Override
     public HealthCheck healthCheck() {
@@ -37,31 +46,31 @@ public class Client implements ClientApi {
 
     @Override
     public Greeting greetTeam() {
-        return new RestTemplate().postForObject(remoteUrl+"/GreetTeam", this, Greeting.class);
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.GreatTeam), this, Greeting.class);
     }
 
     @Override
     public StartCompetition startCompetition() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.StartCompetition), getId(), StartCompetition.class);
     }
 
     @Override
     public MoveResult moveUp() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), this, MoveResult.class);
     }
 
     @Override
     public MoveResult moveDown() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), this, MoveResult.class);
     }
 
     @Override
     public MoveResult moveRight() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), this, MoveResult.class);
     }
 
     @Override
     public MoveResult moveLeft() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new RestTemplate().postForObject(URLFactory.getProd(Methods.MoveUp), this, MoveResult.class);
     }
 }

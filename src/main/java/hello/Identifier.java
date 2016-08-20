@@ -2,7 +2,7 @@ package hello;/*
     Created by kinder112 on 20.08.2016.
  */
 
-class Identifier {
+public class Identifier {
     String teamId = "1df0455f";
     String mazeId;
 
