@@ -36,6 +36,9 @@ class CMaze(object):
     def get(self, pos):
         return self.maze[pos[0]][pos[1]]
         
+    def get_symbol(self, pos):
+        return ' ' if self.get(pos) else '#'
+        
     def cleanup(self):
         self.points = 50
         self.at_end = False
@@ -49,15 +52,33 @@ class CMaze(object):
             self.points += 3
             self.current = pos
             if pos == self.end and not self.at_end:
+                print('First time at end!!!')
                 self.at_end = True
                 self.points -= 50
-                
+            
+            print(self.current)    
             print(self.points)
             return True
         else:
             self.points += 7
+            print(self.current)
             print(self.points)
             return False
+            
+    def scan(self, direction=None):
+        pos = copy.copy(self.current)
+        res = {}
+        if not direction:
+            res['left'] = self.get_symbol((pos[0], pos[1] - 1))
+            res['right'] = self.get_symbol((pos[0], pos[1] + 1))
+            res['up'] = self.get_symbol((pos[0] - 1, pos[1]))
+            res['down'] = self.get_symbol((pos[0] + 1, pos[1]))
+        
+        self.points += 4
+        print(res)
+        print(self.points)
+        return res
+            
         
     def move_up(self):
         return self.move(0, -1)
@@ -87,6 +108,10 @@ def start():
         return jsonify({'startPoint': {'x': maze.start[1], 'y': maze.start[0]}, 'endPoint': {'x': maze.end[1], 'y': maze.end[0]}})
     else:
         return jsonify({'startPoint': {'x': maze.start[1], 'y': maze.start[0]}, 'endPoint': {'x': maze.end[1], 'y': maze.end[0]}})
+        
+@app.route('/Scan', methods=['GET', 'POST'])
+def scan():
+    return jsonify(maze.scan())
         
 @app.route('/MoveUp', methods=['GET', 'POST'])
 def move_up():
