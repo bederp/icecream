@@ -1,23 +1,34 @@
 import os
+import sys
 import json
 import copy
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 class CMaze(object):
-    def __init__(self):
+    def __init__(self, filename):
         self.points = 50
         self.at_end = False
-        self.start = [1, 2]
-        self.end = [5, 3]
+        self.maze = []
+        f = open(filename, 'r')
+
+        for line in enumerate(f):
+            l = []
+            for c in enumerate(line[1]):
+                l.append(c[1] != '#')
+                if c[1] == 'A':
+                    self.start = [line[0], c[0]]
+                elif c[1] == 'B':
+                    self.end = [line[0], c[0]]
+            self.maze.append(l)
+                
+        f.close()
         self.current = copy.copy(self.start)
-        self.maze = [[False, False, False, False, False, False],
-                     [False, False, True,  True,  True,  False],
-                     [False, False, False, False, True,  False],
-                     [False, True,  True,  True,  True,  False],
-                     [False, True,  False, False, True,  False],
-                     [False, True,  True,  True,  True,  False],
-                     [False, False, False, False, False, False]]
+        
+        for i in self.maze:
+            print(''.join([' ' if x else '#' for x in i]))
+        print(self.start)
+        print(self.end)
                      
     def get_current(self):
         return {'x': self.current[1], 'y': self.current[0]}
@@ -61,7 +72,7 @@ class CMaze(object):
         return self.move(-1, 0)
 
 
-maze = CMaze()
+maze = CMaze(sys.argv[1])
 
 @app.route("/")
 def hello():
