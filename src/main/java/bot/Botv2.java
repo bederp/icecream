@@ -47,12 +47,18 @@ public class Botv2 {
             if(moveResult.isSucces()){
                 log.info("Moved:" + move);
                 moves.push(move);
-//                findOppositeMove(move);
+                reorderOppositeMoveToEndOfStack(move);
                 currentPosition = moveResult.getPosition();
             }else {
                 moves.add(move);
                 log.info("Blocked: " + move);
             }
+    }
+
+    private void reorderOppositeMoveToEndOfStack(Methods move) {
+        final Methods oppositeMove = Methods.opposites.get(move);
+        moves.remove(oppositeMove);
+        moves.add(oppositeMove);
     }
 
 
