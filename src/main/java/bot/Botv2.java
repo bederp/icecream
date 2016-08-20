@@ -20,6 +20,8 @@ public class Botv2 {
     private Point endPosition;
     private Deque<Methods> moves = new ArrayDeque<>();
     private Map<Point, Boolean> visitedPoints = new HashMap<>();
+    private List<Methods> backTrace = new ArrayList<>();
+    int backTreeIndex = -1;
     private ClientApi client = new Client("r1_2", false);
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -28,33 +30,52 @@ public class Botv2 {
         log.info("Starting Competition");
         startCompetition();
         while (!currentPosition.equals(endPosition)) {
-            log.info("Current moves stack: {}", moves);
             Methods move = pickMoveDirection();
-            log.info("Prioritized moves stack: {}", moves);
+            checkBackTracking(move);
             log.info("Picked move: {}", move);
             move1Step(move);
         }
         log.info("Finished maze");
     }
 
+    private void checkBackTracking(Methods move) {
+        log.info("Backtree {}", backTrace);
+            if (!backTrace.isEmpty() && Methods.opposites.get(backTrace.get(backTreeIndex)).equals(move)) {
+                backTrace.remove(backTreeIndex);
+                backTreeIndex--;
+            } else {
+                backTrace.add(move);
+                backTreeIndex++;
+            }
+        log.info("Backtree {}", backTrace);
+    }
+
     private Methods pickMoveDirection() {
         moves.clear();
         prioritizeMoves(Methods.MoveRight, Methods.MoveDown, Methods.MoveLeft, Methods.MoveUp);
-        return moves.pop();
+        log.info("Prioritized moves stack: {}", moves);
+        if (moves.isEmpty()) {
+            return backTrack();
+        } else {
+            return moves.pop();
+        }
+    }
+
+    private Methods backTrack() {
+        return Methods.opposites.get(backTrace.get(backTreeIndex--));
     }
 
     private void prioritizeMoves(Methods... moveDirs) {
         for (Methods method : moveDirs) {
-            prioritizeMove(method);
+            filterVisitedMoves(method);
         }
     }
 
-    private void prioritizeMove(Methods moveDir) {
-        final Point newPosiotion = getNewPosition(moveDir);
-        if (visitedPoints.get(newPosiotion) != null) {
+    private void filterVisitedMoves(Methods moveDir) {
+        final Point newPosition = getNewPosition(moveDir);
+        if (!visitedPoints.containsKey(newPosition)) {
             moves.addLast(moveDir);
         }
-        moves.addFirst(moveDir);
     }
 
     private void move1Step(Methods move) {
@@ -68,6 +89,8 @@ public class Botv2 {
             Point triedPosition = new Point(currentPosition);
             triedPosition.move(move);
             visitedPoints.put(triedPosition, true);
+            backTrace.remove(backTreeIndex);
+            backTreeIndex--;
             log.info("Visited: {}", visitedPoints);
             log.info("Blocked: " + move);
         }
