@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Rule;
 import org.junit.Test;
 import hello.HealthCheck;
+import hello.ScanResult;
 import hello.StartCompetition;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -25,9 +26,9 @@ public class ClientTest {
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);
     private Client client;
-    
+
     @Before
-    public void setUp(){
+    public void setUp() {
         client = new Client("r1_1", false);
     }
 
@@ -52,28 +53,47 @@ public class ClientTest {
     @Ignore
     @Test
     public void shouldGetGreeting() {
-        
+
         Greeting greet = client.greetTeam();
         assertNotNull(greet);
     }
 
     @Test
     public void startCompetition() {
-        
+
         StartCompetition start = client.startCompetition();
         assertNotNull(start);
     }
-    
+
     @Test
-    public void testAllScanMethods() {
-        
-        assertNotNull(client.scan());
-        assertNotNull(client.scanUp());
-        assertNotNull(client.scanDown());
-        assertNotNull(client.scanLeft());
-        assertNotNull(client.scanRight());
+    public void testScan() {
+        final ScanResult scanResult = client.scan();
+
+        assertNotNull(scanResult);
+        assertNotNull(scanResult.getUp());
+        assertNotNull(scanResult.getDown());
+        assertNotNull(scanResult.getLeft());
+        assertNotNull(scanResult.getRight());
     }
-    
-    
+
+    @Test
+    public void testScanUp() {
+        assertNotNull(client.scanUp().getUp());
+    }
+
+    @Test
+    public void testScanDown() {
+        assertNotNull(client.scanDown().getDown());
+    }
+
+    @Test
+    public void testScanLeft() {
+        assertNotNull(client.scanLeft().getLeft());
+    }
+
+    @Test
+    public void testScanRight() {
+        assertNotNull(client.scanRight().getRight());
+    }
 
 }
