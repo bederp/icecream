@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Rule;
 import org.junit.Test;
 import hello.HealthCheck;
+import hello.StartCompetition;
 import org.junit.Before;
 
 /**
@@ -26,7 +27,7 @@ public class ClientTest {
     
     @Before
     public void setUp(){
-        client = new Client("maze_id");
+        client = new Client("r1_1", false);
     }
 
     @Test
@@ -51,6 +52,13 @@ public class ClientTest {
         
         Greeting greet = client.greetTeam();
         assertNotNull(greet);
+    }
+
+    @Test
+    public void startCompetition() {
+        
+        StartCompetition start = client.startCompetition();
+        assertNotNull(start);
     }
 
 }
