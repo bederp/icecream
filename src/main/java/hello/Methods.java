@@ -3,5 +3,11 @@ package hello;/*
  */
 
 public enum Methods {
-    StartCompetition;
+    HealthCheck,
+    GreatTeam,
+    StartCompetition,
+    MoveUp,
+    MoveDown,
+    MoveRight,
+    MoveLeft;
 }
