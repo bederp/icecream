@@ -1,6 +1,7 @@
 package json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import hello.Methods;
 
 /*
     Created by kinder112 on 20.08.2016.
@@ -58,6 +59,23 @@ public class Point {
     @Override
     public String toString() {
         return x + " " + y;
+    }
+
+    public void move(Methods move) {
+        switch (move) {
+            case MoveDown:
+                this.moveDown();
+                break;
+            case MoveUp:
+                this.moveUp();
+                break;
+            case MoveLeft:
+                this.moveLeft();
+                break;
+            case MoveRight:
+                this.moveRight();
+                break;
+        }
     }
 
     @Override

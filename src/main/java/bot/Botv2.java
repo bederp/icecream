@@ -25,12 +25,13 @@ public class Botv2 {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     public void run() {
-        initialize();
         log.info("Starting Competition");
         startCompetition();
         while (!currentPosition.equals(endPosition)) {
             log.info("Current moves stack: {}", moves);
             Methods move = pickMoveDirection();
+            log.info("Prioritized moves stack: {}", moves);
+            log.info("Picked move: {}", move);
             move1Step(move);
         }
         log.info("Finished maze");
@@ -49,38 +50,27 @@ public class Botv2 {
     }
 
     private void prioritizeMove(Methods moveDir) {
-        final Point dir = getNewPosition(moveDir);
-        if (visitedPoints.get(dir) != null) {
+        final Point newPosiotion = getNewPosition(moveDir);
+        if (visitedPoints.get(newPosiotion) != null) {
             moves.addLast(moveDir);
         }
-    }
-
-    private void initialize() {
-        moves.addLast(Methods.MoveRight);
-        moves.addLast(Methods.MoveDown);
-        moves.addLast(Methods.MoveLeft);
-        moves.addLast(Methods.MoveUp);
+        moves.addFirst(moveDir);
     }
 
     private void move1Step(Methods move) {
         final MoveResult moveResult = client.move(move);
         currentPosition = moveResult.getPosition();
-        visitedPoints.put(currentPosition, true);
 
         if (moveResult.isSucces()) {
+            visitedPoints.put(currentPosition, true);
             log.info("Moved:" + move);
-            moves.addFirst(move);
-            reorderOppositeMoveToEndOfStack(move);
         } else {
-            moves.addLast(move);
+            Point triedPosition = new Point(currentPosition);
+            triedPosition.move(move);
+            visitedPoints.put(triedPosition, true);
+            log.info("Visited: {}", visitedPoints);
             log.info("Blocked: " + move);
         }
-    }
-
-    private void reorderOppositeMoveToEndOfStack(Methods move) {
-        final Methods oppositeMove = Methods.opposites.get(move);
-        moves.remove(oppositeMove);
-        moves.addLast(oppositeMove);
     }
 
     private void startCompetition() {
@@ -91,31 +81,9 @@ public class Botv2 {
         endPosition = startCompetition.getEndPoint();
     }
 
-    private boolean wasThereBefore(Methods move) {
-        final Point newPosition = getNewPosition(move);
-        if (visitedPoints.get(newPosition) != null) {
-            log.info("Change of move. Was before at {}", newPosition);
-            return true;
-        }
-        return false;
-    }
-
     private Point getNewPosition(Methods move) {
         Point newPosition = new Point(currentPosition);
-        switch (move) {
-            case MoveDown:
-                newPosition.moveDown();
-                break;
-            case MoveUp:
-                newPosition.moveUp();
-                break;
-            case MoveLeft:
-                newPosition.moveLeft();
-                break;
-            case MoveRight:
-                newPosition.moveRight();
-                break;
-        }
+        newPosition.move(move);
         return newPosition;
     }
 
