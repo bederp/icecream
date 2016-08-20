@@ -11,15 +11,13 @@ import hello.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Botv2 {
     private Point startPosition;
     private Point currentPosition;
     private Point endPosition;
-    Stack<Methods> moves = new Stack<>();
+    private Deque<Methods> moves = new ArrayDeque<>();
     private ClientApi client = new Client("r1_1", false);
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -35,10 +33,10 @@ public class Botv2 {
     }
 
     private void initialize() {
-        moves.add(Methods.MoveRight);
-        moves.add(Methods.MoveDown);
-        moves.add(Methods.MoveLeft);
-        moves.add(Methods.MoveUp);
+        moves.addFirst(Methods.MoveUp);
+        moves.addFirst(Methods.MoveLeft);
+        moves.addFirst(Methods.MoveDown);
+        moves.addFirst(Methods.MoveRight);
     }
 
     private void move1Step() {
@@ -46,7 +44,7 @@ public class Botv2 {
             final MoveResult moveResult = client.move(move);
             if(moveResult.isSucces()){
                 log.info("Moved:" + move);
-                moves.push(move);
+                moves.addFirst(move);
                 reorderOppositeMoveToEndOfStack(move);
                 currentPosition = moveResult.getPosition();
             }else {
@@ -58,7 +56,7 @@ public class Botv2 {
     private void reorderOppositeMoveToEndOfStack(Methods move) {
         final Methods oppositeMove = Methods.opposites.get(move);
         moves.remove(oppositeMove);
-        moves.add(oppositeMove);
+        moves.addLast(oppositeMove);
     }
 
 

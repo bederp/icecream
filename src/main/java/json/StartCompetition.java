@@ -29,7 +29,6 @@ public class StartCompetition {
 
     @Override
     public String toString() {
-        return "Start point [" + startPoint + "]\n"
-                + "End point [" + endPoint + "]";
+        return "Start point [" + startPoint + "] End point [" + endPoint + "]";
     }
 }
