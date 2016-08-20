@@ -45,5 +45,8 @@ public class MoveResult {
     public String toString() {
         return "MoveResult{" + "position=" + position + ", details=" + details + ", outcome=" + outcome + '}';
     }
-    
+
+    public boolean isSucces() {
+        return getOutcome().equals("success");
+    }
 }

@@ -5,6 +5,8 @@
  */
 package hello;
 
+import bot.Botv1;
+import bot.Botv2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -27,11 +29,8 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
-        final StartCompetition start = restTemplate.postForObject(URLFactory.getTest(Methods.StartCompetition), new Identifier("id_1"), StartCompetition.class);
-        log.info(String.valueOf(start));
-//        final HealthCheck healthCheck = restTemplate.getForObject("http://192.168.0.50:12345/maze-game/HealthCheck", HealthCheck.class);
-//        log.info(String.valueOf(healthCheck));
+        Botv2 bot = new Botv2();
+        bot.run();
     }
 
 }

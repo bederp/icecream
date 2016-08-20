@@ -3,6 +3,7 @@ package hello;/*
  */
 
 public enum Methods {
+
     HealthCheck,
     GreatTeam,
     StartCompetition,
